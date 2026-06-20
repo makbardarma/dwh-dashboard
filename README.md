@@ -1,36 +1,168 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# UAS Data Warehouse Dashboard
 
-## Getting Started
+Aplikasi Data Warehouse Dashboard menggunakan Next.js, Prisma, PostgreSQL, dan TailwindCSS.
 
-First, run the development server:
+## Fitur
+
+### Dashboard
+- Statistik Penjualan
+- Grafik Produk Terlaris
+- Grafik Penjualan Bulanan
+- Top Customer
+
+### Dimensi Produk
+- Tambah Produk
+- Edit Produk
+- Hapus Produk
+- Search Produk
+- Pagination Produk
+
+### Dimensi Pelanggan
+- Tambah Pelanggan
+- Edit Pelanggan
+- Hapus Pelanggan
+- Search Pelanggan
+- Pagination Pelanggan
+
+### Dimensi Waktu
+- Tambah Waktu
+- Edit Waktu
+- Hapus Waktu
+
+### Fact Penjualan
+- Tambah Transaksi
+- Edit Transaksi
+- Hapus Transaksi
+- Search Transaksi
+- Pagination Transaksi
+
+---
+
+# Teknologi
+
+- Next.js 15
+- TypeScript
+- Prisma ORM
+- PostgreSQL
+- Tailwind CSS
+
+---
+
+# Clone Repository
+
+```bash
+git clone https://github.com/makbardarma/dwh-dashboard.git
+```
+
+Masuk ke folder project:
+
+```bash
+cd dwh-dashboard
+```
+
+---
+
+# Install Dependency
+
+```bash
+npm install
+```
+
+---
+
+# Setup Database
+
+Buat file `.env`
+
+```env
+DATABASE_URL="postgresql://postgres:password@localhost:5432/datawarehouse"
+```
+
+Sesuaikan:
+
+- username postgres
+- password postgres
+- nama database
+
+---
+
+# Jalankan Migration
+
+```bash
+npx prisma migrate dev
+```
+
+Generate Prisma Client:
+
+```bash
+npx prisma generate
+```
+
+---
+
+# Menjalankan Project
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Buka browser:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```txt
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+# Struktur Data Warehouse
 
-To learn more about Next.js, take a look at the following resources:
+## Dimensi Pelanggan
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Field | Tipe |
+|---------|---------|
+| id_pelanggan | Integer |
+| kode_pelanggan | String |
+| nama_pelanggan | String |
+| jenis_kelamin | String |
+| kota | String |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Dimensi Produk
 
-## Deploy on Vercel
+| Field | Tipe |
+|---------|---------|
+| id_produk | Integer |
+| kode_produk | String |
+| nama_produk | String |
+| kategori | String |
+| harga | Decimal |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Dimensi Waktu
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Field | Tipe |
+|---------|---------|
+| id_waktu | Integer |
+| tanggal | Date |
+| tahun | Integer |
+| bulan | Integer |
+| bulan_nama | String |
+| kuartal | Integer |
+
+## Fact Penjualan
+
+| Field | Tipe |
+|---------|---------|
+| id_penjualan | Integer |
+| id_produk | FK |
+| id_pelanggan | FK |
+| id_waktu | FK |
+| jumlah | Integer |
+| harga_satuan | Decimal |
+| total_harga | Decimal |
+
+---
+
+# Author
+
+Muhamad Akbar Darma
+
+UAS Data Warehouse

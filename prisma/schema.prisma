@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model dim_pelanggan {
+  id_pelanggan   Int              @id @default(autoincrement())
+  kode_pelanggan String?          @db.VarChar(20)
+  nama_pelanggan String?          @db.VarChar(100)
+  jenis_kelamin  String?          @db.Char(1)
+  kota           String?          @db.VarChar(50)
+  fact_penjualan fact_penjualan[]
+}
+
+model dim_produk {
+  id_produk      Int              @id @default(autoincrement())
+  kode_produk    String?          @db.VarChar(20)
+  nama_produk    String?          @db.VarChar(100)
+  kategori       String?          @db.VarChar(50)
+  harga          Decimal?         @db.Decimal(10, 2)
+  fact_penjualan fact_penjualan[]
+}
+
+model dim_waktu {
+  id_waktu       Int              @id @default(autoincrement())
+  tanggal        DateTime?        @db.Date
+  tahun          Int?
+  bulan          Int?
+  bulan_nama     String?          @db.VarChar(20)
+  kuartal        Int?
+  fact_penjualan fact_penjualan[]
+}
+
+model fact_penjualan {
+  id_penjualan  Int            @id @default(autoincrement())
+  id_produk     Int?
+  id_pelanggan  Int?
+  id_waktu      Int?
+  jumlah        Int?
+  harga_satuan  Decimal?       @db.Decimal(10, 2)
+  total_harga   Decimal?       @db.Decimal(10, 2)
+  dim_pelanggan dim_pelanggan? @relation(fields: [id_pelanggan], references: [id_pelanggan], onDelete: NoAction, onUpdate: NoAction)
+  dim_produk    dim_produk?    @relation(fields: [id_produk], references: [id_produk], onDelete: NoAction, onUpdate: NoAction)
+  dim_waktu     dim_waktu?     @relation(fields: [id_waktu], references: [id_waktu], onDelete: NoAction, onUpdate: NoAction)
+}
